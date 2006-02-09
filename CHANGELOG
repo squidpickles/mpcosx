@@ -1,0 +1,11 @@
+0.6:
+  - Now a universal binary
+  - Updated to libmpdclient r3870
+0.5:
+  - Integrated some GUI changes suggested by Damian Tanner 
+    (http://blog.mongoo.se/)
+  - Fixed play/pause button to toggle properly
+  - Images for volume indicators
+  
+0.4b:
+  - Numerous bug fixes related to crashes after waking from sleep

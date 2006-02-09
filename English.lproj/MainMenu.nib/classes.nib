@@ -1,0 +1,50 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                browser = id; 
+                changeSong = id; 
+                clearPlaylist = id; 
+                deletePlaylist = id; 
+                newPlaylist = id; 
+                next = id; 
+                playPause = id; 
+                playlistList = id; 
+                prev = id; 
+                progress = id; 
+                random = id; 
+                removeFromPlaylist = id; 
+                selectNowPlaying = id; 
+                shufflePlaylist = id; 
+                stop = id; 
+                time = id; 
+                updatePlaylist = id; 
+                updatePlaylists = id; 
+                updateStatus = id; 
+                volume = id; 
+            }; 
+            CLASS = MpcWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                browser = NSBrowser; 
+                deletePlaylist = NSButton; 
+                newPlaylist = NSButton; 
+                nowPlaying = NSTextView; 
+                playPause = NSButton; 
+                playlist = NSTableView; 
+                playlistDrawer = NSDrawer; 
+                playlistUpdateProg = NSProgressIndicator; 
+                playlists = NSTableView; 
+                prefsWindow = NSWindow; 
+                progress = NSLevelIndicator; 
+                random = NSButton; 
+                time = NSTextField; 
+                volume = NSSlider; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = NSLevelIndicator; LANGUAGE = ObjC; SUPERCLASS = NSControl; }
+    ); 
+    IBVersion = 1; 
+}
