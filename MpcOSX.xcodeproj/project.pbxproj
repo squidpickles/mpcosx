@@ -66,7 +66,6 @@
 		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		32CA4F630368D1EE00C91783 /* MpcOSX_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MpcOSX_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* MpcOSX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MpcOSX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC2B6FA009207EBD007DCB87 /* CHANGELOG */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG; sourceTree = "<group>"; };
@@ -87,6 +86,7 @@
 		ECB87A4E0920643F008710E4 /* volume-low.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "volume-low.png"; sourceTree = "<group>"; };
 		ECBFCAA8081FA71800845F46 /* MpcPlaylistIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MpcPlaylistIndex.h; sourceTree = "<group>"; };
 		ECBFCAA9081FA71800845F46 /* MpcPlaylistIndex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MpcPlaylistIndex.m; sourceTree = "<group>"; };
+		ECC760BE099B3038003C8DF0 /* MpcOSX_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MpcOSX_Prefix.pch; sourceTree = "<group>"; };
 		ECD1E7630751FD2F00166F23 /* MpcSong.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MpcSong.h; sourceTree = "<group>"; };
 		ECD1E7640751FD2F00166F23 /* MpcSong.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MpcSong.m; sourceTree = "<group>"; };
 		ECDF9894087179E60072B04B /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = AppIcon.icns; sourceTree = "<group>"; };
@@ -170,9 +170,9 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				ECC760BE099B3038003C8DF0 /* MpcOSX_Prefix.pch */,
 				EC7DADCE0750AF0C00F898A9 /* libmpdclient.c */,
 				EC7DADCF0750AF0D00F898A9 /* libmpdclient.h */,
-				32CA4F630368D1EE00C91783 /* MpcOSX_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 				EC2B6FA009207EBD007DCB87 /* CHANGELOG */,
 			);
