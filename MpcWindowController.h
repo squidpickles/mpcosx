@@ -61,6 +61,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 - (IBAction)time:(id)sender;
 - (IBAction)volume:(id)sender;
 - (IBAction)selectNowPlaying:(id)sender;
+- (IBAction)updateDatabase:(id)sender;
 - (void)updateStatus:(id)sender;
 - (void)updatePlaylist:(id)sender;
 + (void)setupDefaults;

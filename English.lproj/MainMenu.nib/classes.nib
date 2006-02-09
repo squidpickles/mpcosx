@@ -19,6 +19,7 @@
                 shufflePlaylist = id; 
                 stop = id; 
                 time = id; 
+                updateDatabase = id; 
                 updatePlaylist = id; 
                 updatePlaylists = id; 
                 updateStatus = id; 

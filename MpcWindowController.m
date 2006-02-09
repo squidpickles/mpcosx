@@ -288,6 +288,11 @@ NSFont *smallFont;
   [playlist scrollRowToVisible:index];
 }
 
+- (IBAction)updateDatabase:(id)sender
+{
+  [server updateDb];
+}
+
 -(void)updateStatus:(id)sender
 {
   MpcSong *current;

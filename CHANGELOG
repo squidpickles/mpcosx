@@ -1,6 +1,8 @@
 0.6:
   - Now a universal binary
   - Updated to libmpdclient r3870
+  - Client can initiate database update (no visual feedback yet)
+
 0.5:
   - Integrated some GUI changes suggested by Damian Tanner 
     (http://blog.mongoo.se/)
