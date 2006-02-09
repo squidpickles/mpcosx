@@ -120,11 +120,16 @@ static MpcServer *sharedInstance = nil;
     [self disconnect];
     return error;
   }
-  
-  if (password && [password length])
+ 
+  if (nil != password && [password length] > 0)
   {
+    NSLog(@"Sending password");
     mpd_sendPasswordCommand(conn,[password cString]);
     error = [self finishCmd];
+  }
+  else
+  {
+    NSLog(@"No password");
   }
   
   return error;
