@@ -61,7 +61,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 -(int)updatePlaylistChanges;
 -(int)deletePlaylist:(NSString *)name;
 -(int)savePlaylist:(NSString *)name;
--(id)getPlaylists;
 -(int)getLibrary;
 -(id)song;
 -(id)playlist;

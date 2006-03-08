@@ -120,48 +120,11 @@ NSFont *smallFont;
   // Set up library browser
   [browser reloadColumn:BROWSER_ARTIST];
   while ([browser lastColumn] < BROWSER_TRACK)
+  {
     [browser addColumn];
-  // Build index of playlists
-  playlistIndex = [[MpcPlaylistIndex alloc] initWithArray:[server getPlaylists]];
-  [playlists setDataSource:playlistIndex];
-  [playlists setDelegate:self];
-  [deletePlaylist setEnabled:FALSE];
+  }
   // Set timer to update status regularly
   updateTimer = [NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL target:self selector:@selector(updateStatus:) userInfo:nil repeats:YES];
-}
-
--(BOOL)tableView:(NSTableView *)aTableView shouldEditTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
-{
-  if ([aTableView isEqualTo:playlists] && rowIndex < NUM_SPECIAL_LISTS)
-    return FALSE;
-  return TRUE;
-}
-
-- (void)tableViewSelectionDidChange:(NSNotification *)aNotification
-{
-  int rowIdx = [playlists selectedRow];
-  if (rowIdx < NUM_SPECIAL_LISTS)
-  {
-    [deletePlaylist setEnabled:FALSE];
-  }
-  else
-  {
-    [deletePlaylist setEnabled:TRUE];
-  }
-  switch (rowIdx)
-  {
-    case 0:
-      // Library
-      [playlist setDataSource:[server library]];
-      break;
-    case 1:
-      // Current playlist
-      [playlist setDataSource:[server playlist]];
-      break;
-    default:
-      [playlist setDataSource:[server playlist]];
-  }
-  [playlist reloadData];
 }
 
 - (IBAction)browser:(id)sender
@@ -175,37 +138,15 @@ NSFont *smallFont;
   [server clearPlaylist];
 }
 
-- (IBAction)deletePlaylist:(id)sender
-{
-  [server deletePlaylist:[playlistIndex playlistAtIndex:[playlists selectedRow]]];
-  [self updatePlaylists:sender];
-}
-
 - (IBAction)changeSong:(id)sender
 {
   MpcSong *song = [[server playlist] getSong:[playlist selectedRow]];
   [server playSong:song];
 }
 
-- (IBAction)newPlaylist:(id)sender
-{
-}
-
-- (IBAction)updatePlaylists:(id)sender
-{
-  [playlistUpdateProg startAnimation:sender];
-  [playlistIndex replaceWithArray:[server getPlaylists]];
-  [playlists reloadData];
-  [playlistUpdateProg stopAnimation:sender];
-}
-
 - (IBAction)next:(id)sender
 {
   [server next];
-}
-
-- (IBAction)playlistList:(id)sender
-{
 }
 
 - (IBAction)playPause:(id)sender
@@ -290,6 +231,8 @@ NSFont *smallFont;
 
 - (IBAction)updateDatabase:(id)sender
 {
+  [textStatus setStringValue:@"Updating DB"];
+  [textStatus setHidden:FALSE];
   [server updateDb];
 }
 
@@ -318,9 +261,24 @@ NSFont *smallFont;
   
   // Random checkbox
   if ([myStatus random])
+  {
     [random setState:NSOnState];
+  }
   else
+  {
     [random setState:NSOffState];
+  }
+  
+  // Updating database
+  if ([myStatus updatingDb])
+  {
+    [textStatus setStringValue:@"Updating DB"];
+    [textStatus setHidden:FALSE];
+  }
+  else
+  {
+    [textStatus setHidden:TRUE];
+  }
   
   // Volume slider
   [volume setIntValue:[myStatus volume]];
@@ -356,11 +314,15 @@ NSFont *smallFont;
   
   // Playlist
   if (playlistId != [[server playlist] playlistId])
+  {
     [self updatePlaylist:self];
+  }
   
   // Update the library if it needs it (and DB is not currently updating)
   if (![myStatus updatingDb] && [[server library] needsUpdate])
+  {
     [server getLibrary];
+  }
 }
 
 - (void)browser:(NSBrowser *)sender createRowsForColumn:(int)column inMatrix:(NSMatrix *)matrix
@@ -377,11 +339,15 @@ NSFont *smallFont;
   objEnum = [[[sender matrixInColumn:BROWSER_ARTIST] selectedCells] objectEnumerator];
   selectedArtists = [NSMutableArray array];
   while (obj = [objEnum nextObject])
+  {
     [selectedArtists addObject:[obj stringValue]];
+  }
   objEnum = [[[sender matrixInColumn:BROWSER_ALBUM] selectedCells] objectEnumerator];
   selectedAlbums = [NSMutableArray array];
   while (obj = [objEnum nextObject])
+  {
     [selectedAlbums addObject:[obj stringValue]];
+  }
   
   switch (column)
   {
@@ -427,7 +393,9 @@ NSFont *smallFont;
     names = [NSMutableArray arrayWithCapacity:[cells count]];
     cellEnum = [cells objectEnumerator];
     while (cell = [cellEnum nextObject])
+    {
       [names addObject:[cell stringValue]];
+    }
     [selected setObject:[names copy] forKey:[NSNumber numberWithInt:column]];
   }
   return [[server library] trackPathsForArtists:[selected objectForKey:[NSNumber numberWithInt:BROWSER_ARTIST]] andAlbums:[selected objectForKey:[NSNumber numberWithInt:BROWSER_ALBUM]] onlyIncluding:[selected objectForKey:[NSNumber numberWithInt:BROWSER_TRACK]]];
@@ -448,7 +416,9 @@ NSFont *smallFont;
 - (void)windowWillClose:(NSNotification *)aNotification
 {
   if ([prefsWindow isEqualTo:[aNotification object]])
+  {
     [[NSApplication sharedApplication] stopModal];
+  }
 }
 
 + (void)setupDefaults
@@ -481,8 +451,6 @@ NSFont *smallFont;
   [server disconnect];
   [server release];
   server = nil;
-  [playlists release];
-  playlists = nil;
   [super dealloc];
 }
 

@@ -19,7 +19,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 #import <Cocoa/Cocoa.h>
 #import "MpcServer.h"
-#import "MpcPlaylistIndex.h"
 #import "MpcLibraryMatrix.h"
 
 @interface MpcWindowController : NSWindowController
@@ -27,30 +26,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     IBOutlet NSBrowser *browser;
     IBOutlet NSTableView *playlist;
     IBOutlet NSTextView *nowPlaying;
-    IBOutlet NSDrawer *playlistDrawer;
-    IBOutlet NSTableView *playlists;
     IBOutlet NSLevelIndicator *progress;
     IBOutlet NSButton *random;
     IBOutlet NSTextField *time;
     IBOutlet NSSlider *volume;
     IBOutlet NSButton *playPause;
-    IBOutlet NSButton *deletePlaylist;
-    IBOutlet NSButton *newPlaylist;
-    IBOutlet NSProgressIndicator *playlistUpdateProg;
     IBOutlet NSWindow *prefsWindow;
+    IBOutlet NSTextField *textStatus;
     MpcServer *server;
     NSTimer *updateTimer;
     MpcStatus *myStatus;
-    MpcPlaylistIndex *playlistIndex;
+
 }
 - (IBAction)browser:(id)sender;
 - (IBAction)clearPlaylist:(id)sender;
-- (IBAction)deletePlaylist:(id)sender;
-- (IBAction)updatePlaylists:(id)sender;
 - (IBAction)changeSong:(id)sender;
-- (IBAction)newPlaylist:(id)sender;
 - (IBAction)next:(id)sender;
-- (IBAction)playlistList:(id)sender;
 - (IBAction)playPause:(id)sender;
 - (IBAction)prev:(id)sender;
 - (IBAction)progress:(id)sender;
@@ -65,9 +56,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 - (void)updateStatus:(id)sender;
 - (void)updatePlaylist:(id)sender;
 + (void)setupDefaults;
+/*
 - (BOOL)tableView:(NSTableView *)aTableView shouldEditTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex;
+- (void)tableViewSelectionDidChange:(NSNotification *)aNotification;
+*/
 - (NSArray *)selectedLibraryTracks;
 - (void)windowWillClose:(NSNotification *)aNotification;
-- (void)tableViewSelectionDidChange:(NSNotification *)aNotification;
 - (void)browser:(NSBrowser *)sender createRowsForColumn:(int)column inMatrix:(NSMatrix *)matrix;
 @end

@@ -310,33 +310,7 @@ static MpcServer *sharedInstance = nil;
     mpd_sendAddCommand(conn, [path UTF8String]);
   }
   return [self finishCmdList];
-}
-
--(id)getPlaylists
-{
-  mpd_InfoEntity *entity;
-  NSMutableArray *retval;
-  char *dir = "";
-  
-  if (MPD_ERROR(conn))
-    return;
-  
-  retval = [NSMutableArray array];
-  
-  mpd_sendLsInfoCommand(conn, dir);
-  while (entity = mpd_getNextInfoEntity(conn))
-  {
-    if (entity->type == MPD_INFO_ENTITY_TYPE_PLAYLISTFILE)
-    {
-      mpd_PlaylistFile *pl = entity->info.playlistFile;
-      [retval addObject:[NSString stringWithUTF8String:pl->path]];
-    }
-    mpd_freeInfoEntity(entity);
-  }
-  [self finishCmd];
-  return [NSArray arrayWithArray:retval];
-}
-  
+}  
 
 -(int)updatePlaylist
 {

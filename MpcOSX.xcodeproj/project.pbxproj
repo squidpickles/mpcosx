@@ -25,8 +25,6 @@
 		ECB2E5E707548FAA009D8633 /* MpcServer.m in Sources */ = {isa = PBXBuildFile; fileRef = ECB2E5E507548FAA009D8633 /* MpcServer.m */; };
 		ECB87A4D09206433008710E4 /* volume-high.png in Resources */ = {isa = PBXBuildFile; fileRef = ECB87A4C09206433008710E4 /* volume-high.png */; };
 		ECB87A4F0920643F008710E4 /* volume-low.png in Resources */ = {isa = PBXBuildFile; fileRef = ECB87A4E0920643F008710E4 /* volume-low.png */; };
-		ECBFCAAA081FA71800845F46 /* MpcPlaylistIndex.h in Resources */ = {isa = PBXBuildFile; fileRef = ECBFCAA8081FA71800845F46 /* MpcPlaylistIndex.h */; };
-		ECBFCAAB081FA71800845F46 /* MpcPlaylistIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = ECBFCAA9081FA71800845F46 /* MpcPlaylistIndex.m */; };
 		ECD1E7650751FD2F00166F23 /* MpcSong.h in Resources */ = {isa = PBXBuildFile; fileRef = ECD1E7630751FD2F00166F23 /* MpcSong.h */; };
 		ECD1E7660751FD2F00166F23 /* MpcSong.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD1E7640751FD2F00166F23 /* MpcSong.m */; };
 		ECDF9895087179E60072B04B /* AppIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = ECDF9894087179E60072B04B /* AppIcon.icns */; };
@@ -67,7 +65,7 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		8D1107320486CEB800E47090 /* MpcOSX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MpcOSX.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D1107320486CEB800E47090 /* MpcOSX.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = MpcOSX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC2B6FA009207EBD007DCB87 /* CHANGELOG */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG; sourceTree = "<group>"; };
 		EC5077C5082F862D007C6FF6 /* MpcLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MpcLibrary.h; sourceTree = "<group>"; };
 		EC5077C6082F862D007C6FF6 /* MpcLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MpcLibrary.m; sourceTree = "<group>"; };
@@ -84,8 +82,6 @@
 		ECB2E5E507548FAA009D8633 /* MpcServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MpcServer.m; sourceTree = "<group>"; };
 		ECB87A4C09206433008710E4 /* volume-high.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "volume-high.png"; sourceTree = "<group>"; };
 		ECB87A4E0920643F008710E4 /* volume-low.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "volume-low.png"; sourceTree = "<group>"; };
-		ECBFCAA8081FA71800845F46 /* MpcPlaylistIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MpcPlaylistIndex.h; sourceTree = "<group>"; };
-		ECBFCAA9081FA71800845F46 /* MpcPlaylistIndex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MpcPlaylistIndex.m; sourceTree = "<group>"; };
 		ECC760BE099B3038003C8DF0 /* MpcOSX_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MpcOSX_Prefix.pch; sourceTree = "<group>"; };
 		ECD1E7630751FD2F00166F23 /* MpcSong.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MpcSong.h; sourceTree = "<group>"; };
 		ECD1E7640751FD2F00166F23 /* MpcSong.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MpcSong.m; sourceTree = "<group>"; };
@@ -116,8 +112,6 @@
 				EC91BE8D075820C0008408E0 /* MpcPlaylist.m */,
 				EC5077C5082F862D007C6FF6 /* MpcLibrary.h */,
 				EC5077C6082F862D007C6FF6 /* MpcLibrary.m */,
-				ECBFCAA8081FA71800845F46 /* MpcPlaylistIndex.h */,
-				ECBFCAA9081FA71800845F46 /* MpcPlaylistIndex.m */,
 				ECB2E5E407548FAA009D8633 /* MpcServer.h */,
 				ECB2E5E507548FAA009D8633 /* MpcServer.m */,
 				ECD1E7630751FD2F00166F23 /* MpcSong.h */,
@@ -267,7 +261,6 @@
 				ECB2E5E607548FAA009D8633 /* MpcServer.h in Resources */,
 				EC91BE8E075820C0008408E0 /* MpcPlaylist.h in Resources */,
 				ECE6B006075883F000D596EB /* MpcStatus.h in Resources */,
-				ECBFCAAA081FA71800845F46 /* MpcPlaylistIndex.h in Resources */,
 				ECDF9895087179E60072B04B /* AppIcon.icns in Resources */,
 				ECDF98ED08717E260072B04B /* dragImage.png in Resources */,
 				EC675E450894FA840060C809 /* UserDefaults.plist in Resources */,
@@ -291,7 +284,6 @@
 				ECB2E5E707548FAA009D8633 /* MpcServer.m in Sources */,
 				EC91BE8F075820C0008408E0 /* MpcPlaylist.m in Sources */,
 				ECE6B007075883F000D596EB /* MpcStatus.m in Sources */,
-				ECBFCAAB081FA71800845F46 /* MpcPlaylistIndex.m in Sources */,
 				EC5077C7082F862D007C6FF6 /* MpcLibrary.m in Sources */,
 				EC508B3A0845DF9500A691DF /* MpcLibraryMatrix.m in Sources */,
 			);
