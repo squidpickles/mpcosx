@@ -21,6 +21,7 @@
 		EC7DADD10750AF0D00F898A9 /* libmpdclient.h in Resources */ = {isa = PBXBuildFile; fileRef = EC7DADCF0750AF0D00F898A9 /* libmpdclient.h */; };
 		EC91BE8E075820C0008408E0 /* MpcPlaylist.h in Resources */ = {isa = PBXBuildFile; fileRef = EC91BE8C075820C0008408E0 /* MpcPlaylist.h */; };
 		EC91BE8F075820C0008408E0 /* MpcPlaylist.m in Sources */ = {isa = PBXBuildFile; fileRef = EC91BE8D075820C0008408E0 /* MpcPlaylist.m */; };
+		ECA5F05909BEEECC003F87DE /* db_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = ECA5F05809BEEECC003F87DE /* db_icon.png */; };
 		ECB2E5E607548FAA009D8633 /* MpcServer.h in Resources */ = {isa = PBXBuildFile; fileRef = ECB2E5E407548FAA009D8633 /* MpcServer.h */; };
 		ECB2E5E707548FAA009D8633 /* MpcServer.m in Sources */ = {isa = PBXBuildFile; fileRef = ECB2E5E507548FAA009D8633 /* MpcServer.m */; };
 		ECB87A4D09206433008710E4 /* volume-high.png in Resources */ = {isa = PBXBuildFile; fileRef = ECB87A4C09206433008710E4 /* volume-high.png */; };
@@ -65,7 +66,7 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		8D1107320486CEB800E47090 /* MpcOSX.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = MpcOSX.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D1107320486CEB800E47090 /* MpcOSX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MpcOSX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC2B6FA009207EBD007DCB87 /* CHANGELOG */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG; sourceTree = "<group>"; };
 		EC5077C5082F862D007C6FF6 /* MpcLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MpcLibrary.h; sourceTree = "<group>"; };
 		EC5077C6082F862D007C6FF6 /* MpcLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MpcLibrary.m; sourceTree = "<group>"; };
@@ -78,6 +79,7 @@
 		EC7DADCF0750AF0D00F898A9 /* libmpdclient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libmpdclient.h; sourceTree = "<group>"; };
 		EC91BE8C075820C0008408E0 /* MpcPlaylist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MpcPlaylist.h; sourceTree = "<group>"; };
 		EC91BE8D075820C0008408E0 /* MpcPlaylist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MpcPlaylist.m; sourceTree = "<group>"; };
+		ECA5F05809BEEECC003F87DE /* db_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = db_icon.png; sourceTree = "<group>"; };
 		ECB2E5E407548FAA009D8633 /* MpcServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MpcServer.h; sourceTree = "<group>"; };
 		ECB2E5E507548FAA009D8633 /* MpcServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MpcServer.m; sourceTree = "<group>"; };
 		ECB87A4C09206433008710E4 /* volume-high.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "volume-high.png"; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 				ECDF98EC08717E260072B04B /* dragImage.png */,
 				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
 				ECB87A4C09206433008710E4 /* volume-high.png */,
+				ECA5F05809BEEECC003F87DE /* db_icon.png */,
 				ECB87A4E0920643F008710E4 /* volume-low.png */,
 			);
 			name = Resources;
@@ -267,6 +270,7 @@
 				ECB87A4D09206433008710E4 /* volume-high.png in Resources */,
 				ECB87A4F0920643F008710E4 /* volume-low.png in Resources */,
 				EC2B6FA109207EBD007DCB87 /* CHANGELOG in Resources */,
+				ECA5F05909BEEECC003F87DE /* db_icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

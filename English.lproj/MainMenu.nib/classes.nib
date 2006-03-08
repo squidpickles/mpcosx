@@ -24,15 +24,14 @@
             CLASS = MpcWindowController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
-                activity = NSProgressIndicator; 
                 browser = NSBrowser; 
+                dbUpdateIcon = NSImageView; 
                 nowPlaying = NSTextView; 
                 playPause = NSButton; 
                 playlist = NSTableView; 
                 prefsWindow = NSWindow; 
                 progress = NSLevelIndicator; 
                 random = NSButton; 
-                textStatus = NSTextField; 
                 time = NSTextField; 
                 volume = NSSlider; 
             }; 

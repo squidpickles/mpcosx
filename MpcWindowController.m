@@ -231,8 +231,7 @@ NSFont *smallFont;
 
 - (IBAction)updateDatabase:(id)sender
 {
-  [textStatus setStringValue:@"Updating DB"];
-  [textStatus setHidden:FALSE];
+  [dbUpdateIcon setHidden:FALSE];
   [server updateDb];
 }
 
@@ -272,12 +271,11 @@ NSFont *smallFont;
   // Updating database
   if ([myStatus updatingDb])
   {
-    [textStatus setStringValue:@"Updating DB"];
-    [textStatus setHidden:FALSE];
+    [dbUpdateIcon setHidden:FALSE];
   }
   else
   {
-    [textStatus setHidden:TRUE];
+    [dbUpdateIcon setHidden:TRUE];
   }
   
   // Volume slider

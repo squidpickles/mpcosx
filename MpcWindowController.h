@@ -32,7 +32,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     IBOutlet NSSlider *volume;
     IBOutlet NSButton *playPause;
     IBOutlet NSWindow *prefsWindow;
-    IBOutlet NSTextField *textStatus;
+    IBOutlet NSImageView *dbUpdateIcon;
     MpcServer *server;
     NSTimer *updateTimer;
     MpcStatus *myStatus;
