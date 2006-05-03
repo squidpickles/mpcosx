@@ -122,6 +122,7 @@ NSFont *smallFont;
   [playlist setDataSource:[[server playlist] retain]];
   // Set up drag and drop for playlist
   [playlist registerForDraggedTypes: [NSArray arrayWithObjects:PBOARD_TYPE, nil]];
+  
   // Set up library browser
   [browser reloadColumn:BROWSER_ARTIST];
   while ([browser lastColumn] < BROWSER_TRACK)
@@ -165,7 +166,14 @@ NSFont *smallFont;
       [server pause:TRUE];
       break;
     default:
+      if (![myStatus songid])
+      {
+        [server playSong:nil];
+      }
+      else
+      {
       [server playSongId:[myStatus songid]];
+      }
   }
 }
 
@@ -240,8 +248,17 @@ NSFont *smallFont;
   [server updateDb];
 }
 
-- (IBAction)loadPlaylist:(id)sender
+- (void)loadPlaylists:(NSArray *)listNames
 {
+  NSEnumerator *objEnum;
+  id obj;
+  
+  objEnum = [listNames objectEnumerator];
+  while (obj = [objEnum nextObject])
+  {
+    [server loadPlaylist:obj];
+  }
+  
 }
 
 -(void)updateStatus:(id)sender

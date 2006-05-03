@@ -21,10 +21,6 @@
 
 @implementation MpcPlaylistListController
 
-- (void)add:(id)sender
-{
-}
-
 - (void)remove:(id)sender
 {
   NSArray *selected;

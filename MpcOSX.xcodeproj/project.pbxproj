@@ -371,6 +371,7 @@
 		ECDB55710855DB68009573D6 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				PREBINDING = NO;
 			};
 			name = Development;

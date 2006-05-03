@@ -63,6 +63,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 - (IBAction)openPlaylistNamingWindow:(id)sender;
 - (void)updateStatus:(id)sender;
 - (void)updatePlaylist:(id)sender;
+- (void)loadPlaylists:(NSArray *)listNames;
 - (void)savePlaylist:(NSString *)listName;
 - (void)deletePlaylist:(NSString *)listName;
 - (void)updatePlaylistList:(id)sender;

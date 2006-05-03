@@ -24,4 +24,5 @@
 {
     IBOutlet MpcWindowController *windowController;
 }
+
 @end

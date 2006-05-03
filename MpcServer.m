@@ -178,10 +178,14 @@ static MpcServer *sharedInstance = nil;
 
 -(int)playSong:(MpcSong *)song
 {
-  if (song)
+  if (song && [song songid] > 0)
+  {
     return [self playSongId:[song songid]];
+  }
   else
+  {
     return [self playSongId:MPD_PLAY_AT_BEGINNING];
+  }
 }
 
 -(int)playSongId:(unsigned long)songId
