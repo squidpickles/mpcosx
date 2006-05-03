@@ -381,10 +381,46 @@ static MpcServer *sharedInstance = nil;
   return [self finishCmd];
 }
 
+-(int)loadPlaylist:(NSString *)name
+{
+  mpd_sendLoadCommand(conn, [name cString]);
+  return [self finishCmd];
+}
+
 -(int)savePlaylist:(NSString *)name
 {
   mpd_sendSaveCommand(conn, [name cString]);
   return [self finishCmd];
+}
+
+-(NSArray *)getPlaylistList
+{
+  mpd_InfoEntity *entity;
+  
+  NSMutableArray *playlistList = [[NSMutableArray alloc] init];
+   
+  mpd_sendLsInfoCommand(conn, "");
+  while (entity = mpd_getNextInfoEntity(conn))
+  {
+    if (entity->type == MPD_INFO_ENTITY_TYPE_PLAYLISTFILE)
+    {
+      if (nil == entity->info.playlistFile)
+      {
+        // We'll just skip null playlists
+        continue;
+      }
+      [playlistList addObject:[NSString stringWithUTF8String:entity->info.playlistFile->path]];
+    }
+    mpd_freeInfoEntity(entity);
+  }
+  if ([self finishCmd])
+  {
+    return nil;
+  }
+  else
+  {
+    return [playlistList autorelease];
+  }
 }
 
 -(int)getLibrary

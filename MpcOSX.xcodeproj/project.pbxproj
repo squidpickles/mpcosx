@@ -32,6 +32,7 @@
 		ECDF98ED08717E260072B04B /* dragImage.png in Resources */ = {isa = PBXBuildFile; fileRef = ECDF98EC08717E260072B04B /* dragImage.png */; };
 		ECE6B006075883F000D596EB /* MpcStatus.h in Resources */ = {isa = PBXBuildFile; fileRef = ECE6B004075883F000D596EB /* MpcStatus.h */; };
 		ECE6B007075883F000D596EB /* MpcStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = ECE6B005075883F000D596EB /* MpcStatus.m */; };
+		ECEAA0B20A08AB3000B61974 /* MpcPlaylistListController.m in Sources */ = {isa = PBXBuildFile; fileRef = ECEAA0B10A08AB3000B61974 /* MpcPlaylistListController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildStyle section */
@@ -91,6 +92,8 @@
 		ECDF98EC08717E260072B04B /* dragImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dragImage.png; sourceTree = "<group>"; };
 		ECE6B004075883F000D596EB /* MpcStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MpcStatus.h; sourceTree = "<group>"; };
 		ECE6B005075883F000D596EB /* MpcStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MpcStatus.m; sourceTree = "<group>"; };
+		ECEAA0B00A08AB3000B61974 /* MpcPlaylistListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MpcPlaylistListController.h; sourceTree = "<group>"; };
+		ECEAA0B10A08AB3000B61974 /* MpcPlaylistListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MpcPlaylistListController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +115,8 @@
 				ECE6B005075883F000D596EB /* MpcStatus.m */,
 				EC91BE8C075820C0008408E0 /* MpcPlaylist.h */,
 				EC91BE8D075820C0008408E0 /* MpcPlaylist.m */,
+				ECEAA0B00A08AB3000B61974 /* MpcPlaylistListController.h */,
+				ECEAA0B10A08AB3000B61974 /* MpcPlaylistListController.m */,
 				EC5077C5082F862D007C6FF6 /* MpcLibrary.h */,
 				EC5077C6082F862D007C6FF6 /* MpcLibrary.m */,
 				ECB2E5E407548FAA009D8633 /* MpcServer.h */,
@@ -290,6 +295,7 @@
 				ECE6B007075883F000D596EB /* MpcStatus.m in Sources */,
 				EC5077C7082F862D007C6FF6 /* MpcLibrary.m in Sources */,
 				EC508B3A0845DF9500A691DF /* MpcLibraryMatrix.m in Sources */,
+				ECEAA0B20A08AB3000B61974 /* MpcPlaylistListController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,12 +371,7 @@
 		ECDB55710855DB68009573D6 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
 				PREBINDING = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Development;
 		};

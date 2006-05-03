@@ -2,11 +2,20 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
+            CLASS = MpcPlaylistListController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {windowController = MpcWindowController; }; 
+            SUPERCLASS = NSArrayController; 
+        }, 
+        {
             ACTIONS = {
                 browser = id; 
                 changeSong = id; 
                 clearPlaylist = id; 
+                closePlaylistNamingWindow = id; 
                 next = id; 
+                openPlaylistNamingWindow = id; 
+                performSavePlaylist = id; 
                 playPause = id; 
                 prev = id; 
                 progress = id; 
@@ -18,6 +27,7 @@
                 time = id; 
                 updateDatabase = id; 
                 updatePlaylist = id; 
+                updatePlaylistList = id; 
                 updateStatus = id; 
                 volume = id; 
             }; 
@@ -26,9 +36,13 @@
             OUTLETS = {
                 browser = NSBrowser; 
                 dbUpdateIcon = NSImageView; 
+                mainWindow = NSWindow; 
+                newPlaylistName = NSTextField; 
                 nowPlaying = NSTextView; 
                 playPause = NSButton; 
                 playlist = NSTableView; 
+                playlistListController = id; 
+                playlistNamingWindow = NSWindow; 
                 prefsWindow = NSWindow; 
                 progress = NSLevelIndicator; 
                 random = NSButton; 

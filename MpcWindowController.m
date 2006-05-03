@@ -75,6 +75,13 @@ NSFont *smallFont;
   }
 }
 
+-(id)init
+{
+  [super init];
+  server = [MpcServer sharedInstance];
+  playlistList = [[NSMutableArray alloc] init];
+  return self;
+}
 -(void)awakeFromNib
 {
   int connectStatus;
@@ -103,8 +110,7 @@ NSFont *smallFont;
     [[NSApplication sharedApplication] runModalForWindow:prefsWindow];
   }
   [[NSUserDefaults standardUserDefaults] setInteger:++runCount forKey:PREF_RUN_COUNT];
-  // Connect to MPD
-  server = [MpcServer sharedInstance];
+  // Actually connect to the MPD
   [self connect];
   connectNotice = [[NSAttributedString alloc] initWithString:@"Fetching library..." attributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSColor blueColor], NSForegroundColorAttributeName, nil]];
   [[nowPlaying textStorage] setAttributedString:connectNotice];
@@ -112,8 +118,7 @@ NSFont *smallFont;
   // Grab playlist
   [server getLibrary];
   // Grab latest playlist and song
-  [server update];
-  [self updateStatus:self];  
+  [self updateStatus:self];
   [playlist setDataSource:[[server playlist] retain]];
   // Set up drag and drop for playlist
   [playlist registerForDraggedTypes: [NSArray arrayWithObjects:PBOARD_TYPE, nil]];
@@ -235,6 +240,10 @@ NSFont *smallFont;
   [server updateDb];
 }
 
+- (IBAction)loadPlaylist:(id)sender
+{
+}
+
 -(void)updateStatus:(id)sender
 {
   MpcSong *current;
@@ -321,6 +330,7 @@ NSFont *smallFont;
   {
     [server getLibrary];
   }
+  [self updatePlaylistList:self];
 }
 
 - (void)browser:(NSBrowser *)sender createRowsForColumn:(int)column inMatrix:(NSMatrix *)matrix
@@ -443,6 +453,73 @@ NSFont *smallFont;
   // Set the initial values in the shared user defaults controller 
   [[NSUserDefaultsController sharedUserDefaultsController] setInitialValues:initialValuesDict];
 }
+
+-(void)deletePlaylist:(NSString *)listName
+{
+  [server deletePlaylist:listName];
+}
+
+-(void)savePlaylist:(NSString *)listName
+{
+  [server savePlaylist:listName];
+}
+
+- (IBAction)performSavePlaylist:(id)sender
+{
+  [self savePlaylist:[newPlaylistName stringValue]];
+  [self closePlaylistNamingWindow:sender];
+}
+
+- (IBAction)closePlaylistNamingWindow:(id)sender
+{
+  [NSApp endSheet:playlistNamingWindow];
+  [playlistNamingWindow orderOut:self];
+}
+
+- (IBAction)openPlaylistNamingWindow:(id)sender
+{
+  [NSApp beginSheet:playlistNamingWindow modalForWindow:mainWindow
+      modalDelegate:nil didEndSelector:nil contextInfo:nil];
+}
+
+-(void)updatePlaylistList:(id)sender
+{
+  NSArray *lists;
+  NSEnumerator *objEnum;
+  id obj;
+  
+  lists = [server getPlaylistList];
+   
+  // First we go through the list and remove playlists that have been deleted
+  objEnum = [playlistList objectEnumerator];
+  while (obj = [objEnum nextObject])
+  {
+    if (![lists containsObject:obj])
+    {
+      [playlistListController removeObject:obj];
+    }
+  }
+  
+  // Now we go the opposite direction and add any playlists that have been added
+  objEnum = [lists objectEnumerator];
+  
+  while (obj = [objEnum nextObject])
+  {
+    if (![playlistList containsObject:obj])
+    {
+      [playlistListController addObject:obj];
+    }
+  }
+}
+
+- (void) observeValueForKeyPath: (NSString *) keyPath
+                       ofObject: (id) object
+                         change: (NSDictionary *) change
+                        context: (void *) context
+{
+  NSLog(@"Observed change for path %@, object %@.  Change is %@", keyPath, object, change);
+}
+  
 
 - (void)dealloc
 {

@@ -32,10 +32,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     IBOutlet NSSlider *volume;
     IBOutlet NSButton *playPause;
     IBOutlet NSWindow *prefsWindow;
+    IBOutlet NSWindow *playlistNamingWindow;
+    IBOutlet NSWindow *mainWindow;
     IBOutlet NSImageView *dbUpdateIcon;
+    IBOutlet NSTextField *newPlaylistName;
+    IBOutlet id playlistListController;
     MpcServer *server;
     NSTimer *updateTimer;
     MpcStatus *myStatus;
+    NSMutableArray *playlistList;
 
 }
 - (IBAction)browser:(id)sender;
@@ -53,8 +58,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 - (IBAction)volume:(id)sender;
 - (IBAction)selectNowPlaying:(id)sender;
 - (IBAction)updateDatabase:(id)sender;
+- (IBAction)performSavePlaylist:(id)sender;
+- (IBAction)closePlaylistNamingWindow:(id)sender;
+- (IBAction)openPlaylistNamingWindow:(id)sender;
 - (void)updateStatus:(id)sender;
 - (void)updatePlaylist:(id)sender;
+- (void)savePlaylist:(NSString *)listName;
+- (void)deletePlaylist:(NSString *)listName;
+- (void)updatePlaylistList:(id)sender;
 + (void)setupDefaults;
 /*
 - (BOOL)tableView:(NSTableView *)aTableView shouldEditTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex;
@@ -63,4 +74,5 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 - (NSArray *)selectedLibraryTracks;
 - (void)windowWillClose:(NSNotification *)aNotification;
 - (void)browser:(NSBrowser *)sender createRowsForColumn:(int)column inMatrix:(NSMatrix *)matrix;
+- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context;
 @end
