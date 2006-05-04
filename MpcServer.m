@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
                              conn->error == MPD_ERROR_NOTMPD || \
                              conn->error == MPD_ERROR_NORESPONSE || \
                              conn->error == MPD_ERROR_CONNCLOSED
+#define ERROR -1
 
 @implementation MpcServer
 {
@@ -146,7 +147,7 @@ static MpcServer *sharedInstance = nil;
   mpd_Status *stat;
   
   if (MPD_ERROR(conn))
-    return -1;
+    return ERROR;
   
   mpd_sendStatusCommand(conn);
   
@@ -190,6 +191,8 @@ static MpcServer *sharedInstance = nil;
 
 -(int)playSongId:(unsigned long)songId
 {
+  if (MPD_ERROR(conn))
+    return ERROR;
   mpd_sendPlayIdCommand(conn, songId);
   return [self finishCmd];
 }
@@ -198,6 +201,9 @@ static MpcServer *sharedInstance = nil;
 {
   NSEnumerator *songEnum;
   MpcSong *song;
+  
+  if (MPD_ERROR(conn))
+    return ERROR;
   
   [[songs retain] autorelease];
   
@@ -212,42 +218,56 @@ static MpcServer *sharedInstance = nil;
 
 -(int)pause:(BOOL)mode
 {
+  if (MPD_ERROR(conn))
+    return ERROR;
   mpd_sendPauseCommand(conn, mode);
   return [self finishCmd];
 }
 
 -(int)stop
 {
+  if (MPD_ERROR(conn))
+    return ERROR;
   mpd_sendStopCommand(conn);
   return [self finishCmd];
 }
 
 -(int)next
 {
+  if (MPD_ERROR(conn))
+    return ERROR;
   mpd_sendNextCommand(conn);
   return [self finishCmd];
 }
 
 -(int)prev
 {
+  if (MPD_ERROR(conn))
+    return ERROR;
   mpd_sendPrevCommand(conn);
   return [self finishCmd];
 }
 
 -(int)seek:(int)songid:(int)pos
 {
+  if (MPD_ERROR(conn))
+    return ERROR;
   mpd_sendSeekCommand(conn, songid, pos);
   return [self finishCmd];
 }
 
 -(int)shuffle
 {
+  if (MPD_ERROR(conn))
+    return ERROR;
   mpd_sendShuffleCommand(conn);
   return [self finishCmd];
 }
 
 -(int)clearPlaylist
 {
+  if (MPD_ERROR(conn))
+    return ERROR;
   int retval = 0;
   mpd_sendClearCommand(conn);
   retval = [self finishCmd];
@@ -257,39 +277,51 @@ static MpcServer *sharedInstance = nil;
 
 -(int)repeat:(BOOL)mode
 {
+  if (MPD_ERROR(conn))
+    return ERROR;
   mpd_sendRepeatCommand(conn, mode);
   return [self finishCmd];
 }
 
 -(int)random:(BOOL)mode
 {
+  if (MPD_ERROR(conn))
+    return ERROR;
   mpd_sendRandomCommand(conn, mode);
   return [self finishCmd];
 }
 
 -(int)crossfade:(int)seconds
 {
+  if (MPD_ERROR(conn))
+    return ERROR;
   mpd_sendCrossfadeCommand(conn, seconds);
   return [self finishCmd];
 }
 
 -(int)updateDb
 {
+  if (MPD_ERROR(conn))
+    return ERROR;
   mpd_sendUpdateCommand(conn, "");
   return [self finishCmd];
 }
 
 -(int)setVolume:(int)value
 {
+  if (MPD_ERROR(conn))
+    return ERROR;
   mpd_sendSetvolCommand(conn, value);
   return [self finishCmd];
 }
 
 -(int)addSong:(MpcSong *)song
 {
+  if (MPD_ERROR(conn))
+    return ERROR;
   int retval = 0;
   if (!song || ![song file])
-    return -1;
+    return ERROR;
   
   mpd_sendAddCommand(conn, [[song file] UTF8String]);
   if (retval = [self finishCmd])
@@ -304,6 +336,9 @@ static MpcServer *sharedInstance = nil;
 {
   NSEnumerator *pathEnum;
   NSString *path;
+  
+  if (MPD_ERROR(conn))
+    return ERROR;
   
   [[paths retain] autorelease];
   
@@ -322,7 +357,7 @@ static MpcServer *sharedInstance = nil;
   int retval = 0;
   
   if (MPD_ERROR(conn))
-    return -1;
+    return ERROR;
   
   [currPlaylist clear];
   
@@ -346,7 +381,7 @@ static MpcServer *sharedInstance = nil;
   mpd_InfoEntity *entity;
   
   if (MPD_ERROR(conn))
-    return -1;
+    return ERROR;
   
   mpd_sendPlChangesCommand(conn, [currPlaylist playlistId]);
   
@@ -381,18 +416,24 @@ static MpcServer *sharedInstance = nil;
 
 -(int)deletePlaylist:(NSString *)name
 {
+  if (MPD_ERROR(conn))
+    return ERROR;
   mpd_sendRmCommand(conn, [name cString]);
   return [self finishCmd];
 }
 
 -(int)loadPlaylist:(NSString *)name
 {
+  if (MPD_ERROR(conn))
+    return ERROR;
   mpd_sendLoadCommand(conn, [name cString]);
   return [self finishCmd];
 }
 
 -(int)savePlaylist:(NSString *)name
 {
+  if (MPD_ERROR(conn))
+    return ERROR;
   mpd_sendSaveCommand(conn, [name cString]);
   return [self finishCmd];
 }
@@ -400,6 +441,9 @@ static MpcServer *sharedInstance = nil;
 -(NSArray *)getPlaylistList
 {
   mpd_InfoEntity *entity;
+  
+  if (MPD_ERROR(conn))
+    return nil;
   
   NSMutableArray *playlistList = [[NSMutableArray alloc] init];
    
@@ -432,7 +476,7 @@ static MpcServer *sharedInstance = nil;
   mpd_InfoEntity *entity;
   
   if (MPD_ERROR(conn))
-    return -1;
+    return ERROR;
   
   [library clear];
   

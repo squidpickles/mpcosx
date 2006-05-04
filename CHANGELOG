@@ -1,3 +1,7 @@
+0.8a:
+  - Fixed crashing bug when connection fails
+  - Added Smart Crash Reports support
+
 0.8:
   - Fixed bug where play button does not work if a new playlist is loaded
   - Added support for viewing, creating, deleting, and loading playlists
