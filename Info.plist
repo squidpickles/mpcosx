@@ -17,10 +17,16 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>0.8</string>
+	<string>0.8a</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>SmartCrashReports_CommentsTemplate</key>
+	<string>Thanks for helping me debug this application.  It might help if you want to explain what you were doing that caused the crash.</string>
+	<key>SmartCrashReports_CompanyName</key>
+	<string>Kevin Dorne</string>
+	<key>SmartCrashReports_EmailTicket</key>
+	<string>SCR-63304C84C2</string>
 </dict>
 </plist>
