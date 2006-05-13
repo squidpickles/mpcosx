@@ -45,6 +45,7 @@ NSFont *smallFont;
 {
   int connectCount = 0;
   int error;
+  int operation;
   BOOL isConnected;
   NSAttributedString *connectNotice;
   
@@ -66,12 +67,22 @@ NSFont *smallFont;
     NSLog(@"Connection error code %d, made %d attempts", error, connectCount);
     NSAlert *alert = [[NSAlert alloc] init];
     [alert addButtonWithTitle:@"Quit"];
+    [alert addButtonWithTitle:@"Settings"];
     [alert setMessageText:@"Connection error"];
     [alert setInformativeText:[NSString stringWithFormat:@"Couldn't connect to the server after %d tries", connectCount]];
     [alert setAlertStyle:NSWarningAlertStyle];
-    [alert runModal];
+    operation = [alert runModal];
     [alert release];
-    [[NSApplication sharedApplication] terminate:self];
+    switch (operation)
+    {
+      case NSAlertSecondButtonReturn: // Settings
+        [prefsWindow makeKeyAndOrderFront:self];
+        [[NSApplication sharedApplication] runModalForWindow:prefsWindow];
+        [self connect];
+        break;
+      default:
+        [[NSApplication sharedApplication] terminate:self];
+    }
   }
 }
 

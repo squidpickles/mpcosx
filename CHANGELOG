@@ -1,3 +1,6 @@
+0.8b:
+  - Added button to change settings when unable to connect
+
 0.8a:
   - Fixed crashing bug when connection fails
   - Added Smart Crash Reports support
