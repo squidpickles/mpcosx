@@ -1,3 +1,7 @@
+0.8c:
+  - Fixed crash when server returns unreadable errors
+  - Added track length to display
+
 0.8b:
   - Added button to change settings when unable to connect
 

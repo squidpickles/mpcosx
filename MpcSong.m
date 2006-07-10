@@ -101,8 +101,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 - (NSString *)formattedLength
 {
-  int minutes = length/60;
-  int seconds = length - (minutes * 60);
+  int minutes = length / MINUTE;
+  int seconds = length % MINUTE;
   return [NSString stringWithFormat:@"%0d:%02d", minutes, seconds];
 }
   

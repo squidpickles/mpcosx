@@ -20,6 +20,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #import <Cocoa/Cocoa.h>
 #include "libmpdclient.h"
 
+#define MINUTE 60
+#define HOUR MINUTE * 60
+
 @interface MpcSong : NSObject {
   NSString *file, *title, *artist, *album, *track;
   int length, plpos, songid;

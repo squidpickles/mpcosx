@@ -332,7 +332,7 @@ NSFont *smallFont;
       [playPause setState:NSOnState];
     case MPD_STATUS_STATE_PAUSE:
       current = [server song];
-      songInfo = [NSString stringWithFormat:@"%@ - %@\n%@",[current artist], [current title], [current album]];
+      songInfo = [NSString stringWithFormat:@"%@ - %@ (%@)\n%@",[current artist], [current title], [current formattedLength], [current album]];
       minutes = [myStatus elapsedTime] / 60;
       seconds = [myStatus elapsedTime] % 60;
       elapsed = [myStatus elapsedTime] * 100 / [myStatus totalTime];

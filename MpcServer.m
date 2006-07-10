@@ -25,6 +25,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
                              conn->error == MPD_ERROR_NORESPONSE || \
                              conn->error == MPD_ERROR_CONNCLOSED
 #define ERROR -1
+#define MAX_ERROR 512
+#define MIN_ERROR -512
 
 @implementation MpcServer
 {
@@ -70,7 +72,14 @@ static MpcServer *sharedInstance = nil;
   error = conn->error;
   if (error)
   {
-    NSLog(@"Error: %s (#%d)", conn->errorStr, error);
+    if (error < MAX_ERROR && error > MIN_ERROR)
+    {
+      NSLog(@"Error: %s (#%d)", conn->errorStr, error);
+    }
+    else
+    {
+      NSLog(@"Server sent unreadable error code");
+    }
 
     if (MPD_CONNECTION_ERROR)
       [self disconnect];
