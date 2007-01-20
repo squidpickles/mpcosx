@@ -344,8 +344,10 @@
 					ppc,
 					i386,
 				);
+				COPY_PHASE_STRIP = NO;
 				PREBINDING = NO;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Deployment;
 		};
