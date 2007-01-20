@@ -1,6 +1,6 @@
 /*
 MpcOSX
-Copyright 2005-2006 Kevin Dorne
+Copyright 2005-2007 Kevin Dorne
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -50,7 +50,7 @@ NSFont *smallFont;
   NSAttributedString *connectNotice;
   
   connectNotice = [[NSAttributedString alloc] initWithString:@"Connecting to server..." attributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSColor blueColor], NSForegroundColorAttributeName, nil]];
-  [[nowPlaying textStorage] setAttributedString:connectNotice];
+  [[nowPlaying textStorage] setAttributedString:[connectNotice autorelease]];
   [nowPlaying display];
   do {
     error = [server connect:[[NSUserDefaults standardUserDefaults] stringForKey:PREF_SERVER_HOST]
@@ -124,11 +124,14 @@ NSFont *smallFont;
   // Actually connect to the MPD
   [self connect];
   connectNotice = [[NSAttributedString alloc] initWithString:@"Fetching library..." attributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSColor blueColor], NSForegroundColorAttributeName, nil]];
-  [[nowPlaying textStorage] setAttributedString:connectNotice];
+  [[nowPlaying textStorage] setAttributedString:[connectNotice autorelease]];
   [nowPlaying display];
-  // Grab playlist
+  // Grab library
   [server getLibrary];
   // Grab latest playlist and song
+  connectNotice = [[NSAttributedString alloc] initWithString:@"Fetching playlist..." attributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSColor blueColor], NSForegroundColorAttributeName, nil]];
+  [[nowPlaying textStorage] setAttributedString:[connectNotice autorelease]];
+  [nowPlaying display];
   [self updateStatus:self];
   [playlist setDataSource:[[server playlist] retain]];
   // Set up drag and drop for playlist
@@ -212,7 +215,9 @@ NSFont *smallFont;
   
   selected = [playlist selectedRowIndexes];
   if ([selected count] == 0)
+  {
     return; // TODO -- auto menu enable/disable
+  }
   songs = [NSMutableArray arrayWithCapacity:[selected count]];
   
   idx = [selected firstIndex];
@@ -222,8 +227,7 @@ NSFont *smallFont;
     idx = [selected indexGreaterThanIndex:idx];
   } while (idx != NSNotFound);
   [server removeSongs:songs];
-  [self updatePlaylist:sender];
-  [self selectNowPlaying:sender];
+  [playlist deselectAll:self];
 }
 
 - (IBAction)shufflePlaylist:(id)sender
@@ -316,7 +320,16 @@ NSFont *smallFont;
   }
   
   // Volume slider
+  // (if volume not supported, disable slider)
+  int volumeLevel = [myStatus volume];
+  if (MPD_STATUS_NO_VOLUME == volumeLevel)
+  {
+    [volume setEnabled:FALSE];
+  }
+  else
+  {
   [volume setIntValue:[myStatus volume]];
+  }
   
   // Play/pause button, song title
   switch ([myStatus state])

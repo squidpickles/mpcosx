@@ -1,3 +1,9 @@
+0.9:
+  - Added drag and drop playlist reordering
+  - Volume control is disabled if server doesn't support it
+  - Improved status messages on connect
+	- Updated to libmpdclient r5266
+
 0.8c:
   - Fixed crash when server returns unreadable errors
   - Added track length to display

@@ -1,6 +1,6 @@
 /*
 MpcOSX
-Copyright 2005-2006 Kevin Dorne
+Copyright 2005-2007 Kevin Dorne
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -123,9 +123,38 @@ NSMutableArray *list;
   return [NSString stringWithString:@"???"];
 }
 
--(NSDragOperation) tableView: (NSTableView *) view validateDrop: (id <NSDraggingInfo>) info proposedRow: (int) row proposedDropOperation: (NSTableViewDropOperation) operation
+- (BOOL)tableView:(NSTableView *)tv writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard*)pboard {
+  // TODO: don't implement a deprecated method
+  NSMutableArray *indexes;
+  NSString *indexRecord;
+  int idx;
+  
+  idx = [rowIndexes firstIndex];
+  indexes = [NSMutableArray arrayWithCapacity:[rowIndexes count]];
+  do
+  {
+    [indexes addObject:[NSNumber numberWithInt:idx]];
+    idx = [rowIndexes indexGreaterThanIndex:idx];
+  } while (idx != NSNotFound);
+  
+  indexRecord = [indexes componentsJoinedByString:@"\t"];
+  [pboard declareTypes:[NSArray arrayWithObject:PBOARD_TYPE] owner:self];
+  [pboard setString:indexRecord forType:PBOARD_TYPE];
+  return YES;
+}
+
+-(NSDragOperation) tableView: (NSTableView *) tableView validateDrop: (id <NSDraggingInfo>) info proposedRow: (int) row proposedDropOperation: (NSTableViewDropOperation) operation
 {
-  [view setDropRow:[view numberOfRows] dropOperation:NSTableViewDropAbove];
+  if (tableView == [info draggingSource])
+  {
+    // From the tableview itself; we accept it anywhere
+    [tableView setDropRow:row dropOperation:NSTableViewDropAbove];
+  }
+  else
+  {
+    // From the browser; we only append to the bottom
+    [tableView setDropRow:[tableView numberOfRows] dropOperation:NSTableViewDropAbove];
+  }
   return operation;
 }
 
@@ -133,8 +162,13 @@ NSMutableArray *list;
 {
   NSPasteboard *pboard;
   NSString *dropData;
-  NSArray *tracksToAdd;
+  NSArray *tracksToAdd, *indexes;
   MpcServer *server;
+  NSIndexSet *selected;
+  NSMutableArray *songs;
+  NSEnumerator *indexEnumerator;
+  unsigned int idx;
+  id index, song;
   
   pboard = [info draggingPasteboard];
   dropData = [pboard stringForType:PBOARD_TYPE];
@@ -150,10 +184,21 @@ NSMutableArray *list;
   }
   else if (tableView == [info draggingSource])
   {
-    // It's from our self.  We don't want that right now.
-    // Some day we'll be able to reorder items
-    NSLog(@"Got (unusable) data from ourselves: %@", dropData); //dbug
-    return NO; // TODO
+    // It's from our self.  We can use that for reordering
+    indexes = [dropData componentsSeparatedByString:@"\t"];
+    songs = [NSMutableArray arrayWithCapacity:[indexes count]];
+    indexEnumerator = [indexes objectEnumerator];
+    while (index = [indexEnumerator nextObject])
+    {
+      song = [self getSong:[index intValue]];
+      [songs addObject:song];
+    };
+    server = [MpcServer sharedInstance];
+    [server moveSongs:songs toIndex:row];
+    // Newly-moved tracks should be selected, but we don't know when they'll
+    // make it back into the displayed playlist
+    [tableView deselectAll:self];
+    return YES;
   }
   else
   {

@@ -1,6 +1,6 @@
 /*
 MpcOSX
-Copyright 2005-2006 Kevin Dorne
+Copyright 2005-2007 Kevin Dorne
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -43,6 +43,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 -(int)playSong:(MpcSong *)song;
 -(int)playSongId:(unsigned long)songId;
 -(int)removeSongs:(NSArray *)songs;
+-(int)moveSongs:(NSArray *)songs toIndex:(int)idx;
 -(int)pause:(BOOL)mode;
 -(int)stop;
 -(int)next;

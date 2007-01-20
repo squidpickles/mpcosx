@@ -1,6 +1,6 @@
 /*
 MpcOSX
-Copyright 2005-2006 Kevin Dorne
+Copyright 2005-2007 Kevin Dorne
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -95,7 +95,7 @@ static MpcServer *sharedInstance = nil;
 
 -(void)disconnect
 {
-  NSLog(@"Disconnecting from server"); //dbug
+  NSLog(@"Disconnecting from server");
   if (conn)
     mpd_closeConnection(conn);
   conn = nil;
@@ -171,9 +171,13 @@ static MpcServer *sharedInstance = nil;
     return retval;
   // Did the current playlist change?
   if (!currPlaylist)
+  {
     retval = [self updatePlaylist];
+  }
   else if ([currPlaylist playlistId] != [status playlist])
+  {
     retval = [self updatePlaylistChanges];
+  }
   
   // Did the current song change?
   if ([currPlaylist count] != 0 && (!currSong || [status songid] !=[currSong songid]))
@@ -221,6 +225,42 @@ static MpcServer *sharedInstance = nil;
   while (song = [songEnum nextObject])
   {
   mpd_sendDeleteIdCommand(conn, [song songid]);
+  }
+  return [self finishCmdList];
+}
+
+-(int)moveSongs:(NSArray *)songs toIndex:(int)idx
+{
+  NSEnumerator *songEnum;
+  MpcSong *song;
+  int songSourcePosition, offset;
+  
+  if (MPD_ERROR(conn))
+    return ERROR;
+  
+  [[songs retain] autorelease];
+  
+  songEnum = [songs objectEnumerator];
+  offset = 0;
+  mpd_sendCommandListBegin(conn);
+  while (song = [songEnum nextObject])
+  {
+    songSourcePosition = [song plpos];
+    // Since moving a song puts it before the index, we need to compensate
+    // for tracks occurring before the index
+    if (songSourcePosition < idx)
+    {
+      songSourcePosition -= offset;
+      idx--;
+      offset++;
+    }
+    // Ignore requests to move to the same location
+    if (songSourcePosition != idx)
+    {
+      mpd_sendMoveCommand(conn, songSourcePosition, idx);
+    }
+    // The next track should go below the current track
+    idx++;
   }
   return [self finishCmdList];
 }
@@ -501,7 +541,6 @@ static MpcServer *sharedInstance = nil;
     mpd_freeInfoEntity(entity);
   }
   [library setUpdated];
-  
   return [self finishCmd];      
 }
 
