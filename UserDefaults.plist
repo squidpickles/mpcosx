@@ -12,7 +12,5 @@
 	<string></string>
 	<key>serverPort</key>
 	<integer>6600</integer>
-	<key>usePassword</key>
-	<true/>
 </dict>
 </plist>

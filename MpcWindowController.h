@@ -20,8 +20,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #import <Cocoa/Cocoa.h>
 #import "MpcServer.h"
 #import "MpcLibraryMatrix.h"
+#import "Growl/Growl.h"
 
-@interface MpcWindowController : NSWindowController
+@interface MpcWindowController : NSWindowController <GrowlApplicationBridgeDelegate>
 {
     IBOutlet NSBrowser *browser;
     IBOutlet NSTableView *playlist;
@@ -41,6 +42,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     NSTimer *updateTimer;
     MpcStatus *myStatus;
     NSMutableArray *playlistList;
+    MpcSong *lastTrack;
+    NSDate *lastNotified;
+    BOOL hasRegistered;
 
 }
 - (IBAction)browser:(id)sender;
@@ -68,6 +72,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 - (void)deletePlaylist:(NSString *)listName;
 - (void)updatePlaylistList:(id)sender;
 + (void)setupDefaults;
+- (NSDictionary *)registrationDictionaryForGrowl;
+- (NSString *)applicationNameForGrowl;
+- (void)notifyNowPlaying:(MpcSong *)currentTrack;
 /*
 - (BOOL)tableView:(NSTableView *)aTableView shouldEditTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex;
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification;

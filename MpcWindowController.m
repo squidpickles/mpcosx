@@ -19,12 +19,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 #import "MpcWindowController.h"
 #import "MpcServer.h"
-//#import "GrowlApplicationBridge.h"
 
 @implementation MpcWindowController
 
+#define APPLICATION_NAME @"MpcOSX"
 #define MAJOR_VERSION 0
-#define MINOR_VERSION 9
+#define MINOR_VERSION 10
 
 #define TIMER_INTERVAL 1.0
 #define FONT_SIZE [NSFont systemFontSize] - 2.00
@@ -34,7 +34,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #define PREF_SERVER_HOST @"serverHost"
 #define PREF_SERVER_PORT @"serverPort"
 #define PREF_SERVER_PASSWORD @"serverPassword"
-#define PREF_USE_PASSWORD @"usePassword"
 #define PREF_DISPLAY_NOTIFICATIONS @"displayNotifications"
 #define PREF_RUN_COUNT @"runCount"
 #define PREF_LAST_RUN_VERSION @"lastRunVersion"
@@ -46,8 +45,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   [NSNumber numberWithInt:major], MAJOR, \
   [NSNumber numberWithInt:minor], MINOR, \
   nil]
-
 #define VERSION_DICTIONARY VERSION(MAJOR_VERSION, MINOR_VERSION)
+
+#define GROWL_NOW_PLAYING @"Now Playing"
+#define NOTIFY_MINIMUM_INTERVAL 5
 
 #define ARTIST @"Artist"
 #define ALBUM @"Album"
@@ -70,14 +71,7 @@ NSFont *smallFont;
   connectNotice = [[NSAttributedString alloc] initWithString:@"Connecting to server..." attributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSColor blueColor], NSForegroundColorAttributeName, nil]];
   [[nowPlaying textStorage] setAttributedString:[connectNotice autorelease]];
   [nowPlaying display];
-  if ([[NSUserDefaults standardUserDefaults] boolForKey:PREF_USE_PASSWORD])
-  {
-    password = [[NSUserDefaults standardUserDefaults] stringForKey:PREF_SERVER_PASSWORD];
-  }
-  else
-  {
-    password = @"";
-  }  
+  password = [[NSUserDefaults standardUserDefaults] stringForKey:PREF_SERVER_PASSWORD];
   do
   {
     error = [server connect:[[NSUserDefaults standardUserDefaults] stringForKey:PREF_SERVER_HOST]
@@ -121,6 +115,9 @@ NSFont *smallFont;
   [super init];
   server = [MpcServer sharedInstance];
   playlistList = [[NSMutableArray alloc] init];
+  lastTrack = [MpcSong alloc];
+  lastNotified = [[NSDate distantPast] retain];
+  hasRegistered = FALSE;
   return self;
 }
 -(void)awakeFromNib
@@ -153,12 +150,11 @@ NSFont *smallFont;
   [[NSUserDefaults standardUserDefaults] setInteger:++runCount forKey:PREF_RUN_COUNT];
   [[NSUserDefaults standardUserDefaults] setObject:VERSION_DICTIONARY forKey:PREF_LAST_RUN_VERSION];
   // Register with Growl, if requested
-  /*
   if ([[NSUserDefaults standardUserDefaults] boolForKey:PREF_DISPLAY_NOTIFICATIONS])
   {
     [GrowlApplicationBridge setGrowlDelegate:self];
+    hasRegistered = TRUE;
   }
-   */
   // Actually connect to the MPD
   [self connect];
   connectNotice = [[NSAttributedString alloc] initWithString:@"Fetching library..." attributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSColor blueColor], NSForegroundColorAttributeName, nil]];
@@ -387,6 +383,12 @@ NSFont *smallFont;
       minutes = [myStatus elapsedTime] / 60;
       seconds = [myStatus elapsedTime] % 60;
       elapsed = [myStatus elapsedTime] * 100 / [myStatus totalTime];
+      if ([current songid] != [lastTrack songid])
+      {
+        [lastTrack release];
+        lastTrack = [current retain];
+        [self notifyNowPlaying:current];
+      }
   }
   playing = [[NSAttributedString alloc] initWithString:songInfo attributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSColor purpleColor], NSForegroundColorAttributeName, nil]];
   [[nowPlaying textStorage] setAttributedString:playing];
@@ -526,12 +528,64 @@ NSFont *smallFont;
   // if your application supports resetting a subset of the defaults to 
   // factory values, you should set those values 
   // in the shared user defaults controller
-  resettableUserDefaultsKeys=[NSArray arrayWithObjects:PREF_SERVER_HOST, PREF_SERVER_PORT, PREF_SERVER_PASSWORD, PREF_USE_PASSWORD, PREF_DISPLAY_NOTIFICATIONS, nil];
+  resettableUserDefaultsKeys=[NSArray arrayWithObjects:PREF_SERVER_HOST, PREF_SERVER_PORT, PREF_SERVER_PASSWORD, PREF_DISPLAY_NOTIFICATIONS, nil];
   initialValuesDict=[userDefaultsValuesDict dictionaryWithValuesForKeys:resettableUserDefaultsKeys];
   
   // Set the initial values in the shared user defaults controller 
   [[NSUserDefaultsController sharedUserDefaultsController] setInitialValues:initialValuesDict];
  }
+
+-(NSDictionary *)registrationDictionaryForGrowl
+{
+  NSArray *allNotifications, *defaultNotifications;
+  
+  allNotifications = [NSArray arrayWithObjects:GROWL_NOW_PLAYING, nil];
+  defaultNotifications = [NSArray arrayWithObjects:GROWL_NOW_PLAYING, nil];
+  
+  return [NSDictionary dictionaryWithObjectsAndKeys:allNotifications, GROWL_NOTIFICATIONS_ALL, defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT, nil];
+}
+
+-(NSString *)applicationNameForGrowl
+{
+  return APPLICATION_NAME;
+}
+
+-(void)notifyNowPlaying:(MpcSong *)currentTrack
+{
+  NSString *title, *description;
+  
+  if ([[NSUserDefaults standardUserDefaults] boolForKey:PREF_DISPLAY_NOTIFICATIONS])
+  {
+    [currentTrack retain];
+    
+    if ([lastNotified timeIntervalSinceNow] < - NOTIFY_MINIMUM_INTERVAL)
+    {
+      if (! hasRegistered)
+      {
+        [GrowlApplicationBridge setGrowlDelegate:self];
+        hasRegistered = TRUE;
+      }
+      
+      title = [NSString stringWithFormat:@"%@ (%@)", 
+        [currentTrack title],
+        [currentTrack formattedLength]];
+      description = [NSString stringWithFormat:@"%@\n%@",
+        [currentTrack artist],
+        [currentTrack album]];
+      
+      [GrowlApplicationBridge notifyWithTitle:title
+                                  description:description
+                             notificationName:GROWL_NOW_PLAYING
+                                     iconData:nil
+                                     priority:0
+                                     isSticky:NO
+                                 clickContext:nil];
+      [currentTrack release];
+    }
+    [lastNotified release];
+    lastNotified = [[NSDate date] retain];
+  }
+}
 
 -(void)deletePlaylist:(NSString *)listName
 {
@@ -605,6 +659,10 @@ NSFont *smallFont;
   [server disconnect];
   [server release];
   server = nil;
+  [lastTrack release];
+  lastTrack = nil;
+  [lastNotified release];
+  lastNotified = nil;
   [super dealloc];
 }
 

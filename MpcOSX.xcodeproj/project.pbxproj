@@ -12,6 +12,8 @@
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		EC2B6FA109207EBD007DCB87 /* CHANGELOG in Resources */ = {isa = PBXBuildFile; fileRef = EC2B6FA009207EBD007DCB87 /* CHANGELOG */; };
+		EC43C30E0B7733DC0080769F /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC43C30D0B7733DC0080769F /* Growl.framework */; };
+		EC43C3180B7734110080769F /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = EC43C30D0B7733DC0080769F /* Growl.framework */; };
 		EC5077C7082F862D007C6FF6 /* MpcLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = EC5077C6082F862D007C6FF6 /* MpcLibrary.m */; };
 		EC508B3A0845DF9500A691DF /* MpcLibraryMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = EC508B390845DF9500A691DF /* MpcLibraryMatrix.m */; };
 		EC675E450894FA840060C809 /* UserDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = EC675E440894FA840060C809 /* UserDefaults.plist */; };
@@ -35,6 +37,19 @@
 		ECEAA0B20A08AB3000B61974 /* MpcPlaylistListController.m in Sources */ = {isa = PBXBuildFile; fileRef = ECEAA0B10A08AB3000B61974 /* MpcPlaylistListController.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		EC43C3110B7733ED0080769F /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				EC43C3180B7734110080769F /* Growl.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
@@ -45,6 +60,7 @@
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* MpcOSX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MpcOSX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC2B6FA009207EBD007DCB87 /* CHANGELOG */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG; sourceTree = "<group>"; };
+		EC43C30D0B7733DC0080769F /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
 		EC5077C5082F862D007C6FF6 /* MpcLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MpcLibrary.h; sourceTree = "<group>"; };
 		EC5077C6082F862D007C6FF6 /* MpcLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MpcLibrary.m; sourceTree = "<group>"; };
 		EC508B380845DF9500A691DF /* MpcLibraryMatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MpcLibraryMatrix.h; sourceTree = "<group>"; };
@@ -78,6 +94,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				EC43C30E0B7733DC0080769F /* Growl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,6 +127,7 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EC43C30D0B7733DC0080769F /* Growl.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
@@ -191,6 +209,7 @@
 				8D1107290486CEB800E47090 /* Resources */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
+				EC43C3110B7733ED0080769F /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -286,6 +305,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -304,6 +328,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)\"";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -319,6 +348,11 @@
 		ECDB556F0855DB68009573D6 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MpcOSX_Prefix.pch;
@@ -334,6 +368,7 @@
 			buildSettings = {
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Development;
 		};
