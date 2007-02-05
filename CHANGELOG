@@ -1,8 +1,13 @@
+0.10:
+  - Added Growl notifications on track change
+  - Improved tooltips in preferences
+  - Now recording version information in preferences0.10:
+
 0.9:
   - Added drag and drop playlist reordering
   - Volume control is disabled if server doesn't support it
   - Improved status messages on connect
-	- Updated to libmpdclient r5266
+  - Updated to libmpdclient r5266
 
 0.8c:
   - Fixed crash when server returns unreadable errors
