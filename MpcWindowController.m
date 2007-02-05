@@ -19,8 +19,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 #import "MpcWindowController.h"
 #import "MpcServer.h"
+//#import "GrowlApplicationBridge.h"
 
 @implementation MpcWindowController
+
+#define MAJOR_VERSION 0
+#define MINOR_VERSION 9
 
 #define TIMER_INTERVAL 1.0
 #define FONT_SIZE [NSFont systemFontSize] - 2.00
@@ -30,7 +34,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #define PREF_SERVER_HOST @"serverHost"
 #define PREF_SERVER_PORT @"serverPort"
 #define PREF_SERVER_PASSWORD @"serverPassword"
+#define PREF_USE_PASSWORD @"usePassword"
+#define PREF_DISPLAY_NOTIFICATIONS @"displayNotifications"
 #define PREF_RUN_COUNT @"runCount"
+#define PREF_LAST_RUN_VERSION @"lastRunVersion"
+
+#define MAJOR @"major"
+#define MINOR @"minor"
+
+#define VERSION(major, minor) [NSDictionary dictionaryWithObjectsAndKeys: \
+  [NSNumber numberWithInt:major], MAJOR, \
+  [NSNumber numberWithInt:minor], MINOR, \
+  nil]
+
+#define VERSION_DICTIONARY VERSION(MAJOR_VERSION, MINOR_VERSION)
 
 #define ARTIST @"Artist"
 #define ALBUM @"Album"
@@ -48,22 +65,35 @@ NSFont *smallFont;
   int operation;
   BOOL isConnected;
   NSAttributedString *connectNotice;
+  NSString *password;
   
   connectNotice = [[NSAttributedString alloc] initWithString:@"Connecting to server..." attributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSColor blueColor], NSForegroundColorAttributeName, nil]];
   [[nowPlaying textStorage] setAttributedString:[connectNotice autorelease]];
   [nowPlaying display];
-  do {
+  if ([[NSUserDefaults standardUserDefaults] boolForKey:PREF_USE_PASSWORD])
+  {
+    password = [[NSUserDefaults standardUserDefaults] stringForKey:PREF_SERVER_PASSWORD];
+  }
+  else
+  {
+    password = @"";
+  }  
+  do
+  {
     error = [server connect:[[NSUserDefaults standardUserDefaults] stringForKey:PREF_SERVER_HOST]
 
                            :[[NSUserDefaults standardUserDefaults] integerForKey:PREF_SERVER_PORT]
                            :10
-                           :[[NSUserDefaults standardUserDefaults] stringForKey:PREF_SERVER_PASSWORD]];
+                           :password];
     connectCount++;
     isConnected = [server isConnected];
     if (!isConnected)
       sleep(MPC_RETRY_DELAY);
-  } while (!isConnected && connectCount < MAX_CONNECT_ATTEMPTS);
-  if (error) {
+  }
+    while (!isConnected && connectCount < MAX_CONNECT_ATTEMPTS);
+    
+  if (error)
+  {
     NSLog(@"Connection error code %d, made %d attempts", error, connectCount);
     NSAlert *alert = [[NSAlert alloc] init];
     [alert addButtonWithTitle:@"Quit"];
@@ -112,7 +142,7 @@ NSFont *smallFont;
   // Make play/pause toggle with spacebar
   [playPause setKeyEquivalent:@" "];
   [[self window] orderFront:self];
-  // Setup user defaults
+  // Set up user defaults, run count, and version record
   [MpcWindowController setupDefaults];
   runCount = [[NSUserDefaults standardUserDefaults] integerForKey:PREF_RUN_COUNT];
   if (runCount == 0)
@@ -121,6 +151,14 @@ NSFont *smallFont;
     [[NSApplication sharedApplication] runModalForWindow:prefsWindow];
   }
   [[NSUserDefaults standardUserDefaults] setInteger:++runCount forKey:PREF_RUN_COUNT];
+  [[NSUserDefaults standardUserDefaults] setObject:VERSION_DICTIONARY forKey:PREF_LAST_RUN_VERSION];
+  // Register with Growl, if requested
+  /*
+  if ([[NSUserDefaults standardUserDefaults] boolForKey:PREF_DISPLAY_NOTIFICATIONS])
+  {
+    [GrowlApplicationBridge setGrowlDelegate:self];
+  }
+   */
   // Actually connect to the MPD
   [self connect];
   connectNotice = [[NSAttributedString alloc] initWithString:@"Fetching library..." attributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSColor blueColor], NSForegroundColorAttributeName, nil]];
@@ -488,12 +526,12 @@ NSFont *smallFont;
   // if your application supports resetting a subset of the defaults to 
   // factory values, you should set those values 
   // in the shared user defaults controller
-  resettableUserDefaultsKeys=[NSArray arrayWithObjects:PREF_SERVER_HOST, PREF_SERVER_PORT, PREF_SERVER_PASSWORD, nil];
+  resettableUserDefaultsKeys=[NSArray arrayWithObjects:PREF_SERVER_HOST, PREF_SERVER_PORT, PREF_SERVER_PASSWORD, PREF_USE_PASSWORD, PREF_DISPLAY_NOTIFICATIONS, nil];
   initialValuesDict=[userDefaultsValuesDict dictionaryWithValuesForKeys:resettableUserDefaultsKeys];
   
   // Set the initial values in the shared user defaults controller 
   [[NSUserDefaultsController sharedUserDefaultsController] setInitialValues:initialValuesDict];
-}
+ }
 
 -(void)deletePlaylist:(NSString *)listName
 {

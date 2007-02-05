@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>displayNotifications</key>
+	<false/>
 	<key>runCount</key>
 	<integer>0</integer>
 	<key>serverHost</key>
@@ -10,5 +12,7 @@
 	<string></string>
 	<key>serverPort</key>
 	<integer>6600</integer>
+	<key>usePassword</key>
+	<true/>
 </dict>
 </plist>
