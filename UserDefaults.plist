@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>displayNotifications</key>
-	<false/>
+	<true/>
 	<key>runCount</key>
 	<integer>0</integer>
 	<key>serverHost</key>

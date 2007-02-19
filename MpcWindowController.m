@@ -410,6 +410,7 @@ NSFont *smallFont;
   if (![myStatus updatingDb] && [[server library] needsUpdate])
   {
     [server getLibrary];
+    [self updateLibrary:self];
   }
   [self updatePlaylistList:self];
 }
@@ -454,7 +455,6 @@ NSFont *smallFont;
       break;
   }
   count = [items count];
-  [(MpcLibraryMatrix *)matrix setColumn:column];
   [matrix renewRows:count columns:1];
   [matrix setFont:smallFont];
   for (i = 0; i< count; i++)
@@ -463,6 +463,16 @@ NSFont *smallFont;
     [cell setLeaf:leaf];
     [cell setStringValue:[items objectAtIndex:i]];
     [cell setLoaded:TRUE];
+  }
+}
+
+-(void)updateLibrary:(id)sender
+{
+  int column;
+  
+  for (column = 0; column < [browser numberOfVisibleColumns]; column++)
+  {
+    [browser reloadColumn:column];
   }
 }
 

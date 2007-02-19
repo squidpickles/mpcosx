@@ -20,8 +20,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #import <Cocoa/Cocoa.h>
 
 @interface MpcLibraryMatrix : NSMatrix {
-  int anchor, column;
+  int anchor;
 }
--(void)setColumn:(int)col;
 
 @end

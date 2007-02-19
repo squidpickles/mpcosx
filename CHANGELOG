@@ -1,7 +1,10 @@
+0.11:
+  - Fixed bug where library never updates, even after MPD database changes
+
 0.10:
   - Added Growl notifications on track change
   - Improved tooltips in preferences
-  - Now recording version information in preferences0.10:
+  - Now records version information in preferences
 
 0.9:
   - Added drag and drop playlist reordering

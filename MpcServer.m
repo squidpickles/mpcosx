@@ -95,7 +95,6 @@ static MpcServer *sharedInstance = nil;
 
 -(void)disconnect
 {
-  NSLog(@"Disconnecting from server");
   if (conn)
     mpd_closeConnection(conn);
   conn = nil;
@@ -119,7 +118,6 @@ static MpcServer *sharedInstance = nil;
   currPlaylist = [[MpcPlaylist alloc] init];
   library = [[MpcLibrary alloc] init];
   
-  NSLog(@"Connecting to server (%@:%d)", host, port);
   if (conn)
     [self disconnect];
   
@@ -133,13 +131,8 @@ static MpcServer *sharedInstance = nil;
  
   if (nil != password && [password length] > 0)
   {
-    NSLog(@"Sending password");
     mpd_sendPasswordCommand(conn,[password cString]);
     error = [self finishCmd];
-  }
-  else
-  {
-    NSLog(@"No password");
   }
   
   return error;
@@ -398,7 +391,7 @@ static MpcServer *sharedInstance = nil;
     mpd_sendAddCommand(conn, [path UTF8String]);
   }
   return [self finishCmdList];
-}  
+}
 
 -(int)updatePlaylist
 {
@@ -449,7 +442,7 @@ static MpcServer *sharedInstance = nil;
       [currPlaylist addSong:song];
     }
     [song release];
-    // XXX shouldn't we be freeing the entity here?
+    mpd_freeInfoEntity(entity);
   }
 
   // Remove trailing songs
