@@ -376,8 +376,16 @@ NSFont *smallFont;
       songInfo = [NSString stringWithString:@"Unknown status"];
       break;
     case MPD_STATUS_STATE_PLAY:
-      [playPause setState:NSOnState];
     case MPD_STATUS_STATE_PAUSE:
+      switch([myStatus state])
+      {
+        case MPD_STATUS_STATE_PLAY:
+          [playPause setState:NSOnState];
+          break;
+        case MPD_STATUS_STATE_PAUSE:
+          [playPause setState:NSOffState];
+          break;
+      }
       current = [server song];
       songInfo = [NSString stringWithFormat:@"%@ - %@ (%@)\n%@",[current artist], [current title], [current formattedLength], [current album]];
       minutes = [myStatus elapsedTime] / 60;
