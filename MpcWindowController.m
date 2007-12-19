@@ -90,18 +90,20 @@ NSFont *smallFont;
   {
     NSLog(@"Connection error code %d, made %d attempts", error, connectCount);
     NSAlert *alert = [[NSAlert alloc] init];
+	 [alert addButtonWithTitle:@"Retry"];
     [alert addButtonWithTitle:@"Quit"];
     [alert addButtonWithTitle:@"Settings"];
     [alert setMessageText:@"Connection error"];
-    [alert setInformativeText:[NSString stringWithFormat:@"Couldn't connect to the server after %d tries", connectCount]];
+    [alert setInformativeText:@"Couldn't connect to the server"];
     [alert setAlertStyle:NSWarningAlertStyle];
     operation = [alert runModal];
     [alert release];
     switch (operation)
     {
-      case NSAlertSecondButtonReturn: // Settings
+      case NSAlertThirdButtonReturn: // Settings
         [prefsWindow makeKeyAndOrderFront:self];
         [[NSApplication sharedApplication] runModalForWindow:prefsWindow];
+      case NSAlertFirstButtonReturn: // Retry
         [self connect];
         break;
       default:
