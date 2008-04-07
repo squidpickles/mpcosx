@@ -7,7 +7,7 @@
 	<key>runCount</key>
 	<integer>0</integer>
 	<key>serverHost</key>
-	<string>127.0.0.1</string>
+	<string>localhost</string>
 	<key>serverPassword</key>
 	<string></string>
 	<key>serverPort</key>

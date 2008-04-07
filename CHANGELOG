@@ -1,3 +1,8 @@
+0.12:
+  - Library redraws properly after updates
+  - Play/pause control toggles more consistently
+  - Display Growl notifications preference saves to defaults
+
 0.11:
   - Fixed bug where library never updates, even after MPD database changes
 

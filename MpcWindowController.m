@@ -154,6 +154,7 @@ NSFont *smallFont;
   // Register with Growl, if requested
   if ([[NSUserDefaults standardUserDefaults] boolForKey:PREF_DISPLAY_NOTIFICATIONS])
   {
+    [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:PREF_DISPLAY_NOTIFICATIONS];
     [GrowlApplicationBridge setGrowlDelegate:self];
     hasRegistered = TRUE;
   }
