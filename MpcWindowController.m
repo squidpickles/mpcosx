@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 #define APPLICATION_NAME @"MpcOSX"
 #define MAJOR_VERSION 0
-#define MINOR_VERSION 10
+#define MINOR_VERSION 12
 
 #define TIMER_INTERVAL 1.0
 #define FONT_SIZE [NSFont systemFontSize] - 2.00
@@ -90,9 +90,9 @@ NSFont *smallFont;
   {
     NSLog(@"Connection error code %d, made %d attempts", error, connectCount);
     NSAlert *alert = [[NSAlert alloc] init];
-	 [alert addButtonWithTitle:@"Retry"];
+	  [alert addButtonWithTitle:@"Retry"];
     [alert addButtonWithTitle:@"Quit"];
-    [alert addButtonWithTitle:@"Settings"];
+    [alert addButtonWithTitle:@"Preferences"];
     [alert setMessageText:@"Connection error"];
     [alert setInformativeText:@"Couldn't connect to the server"];
     [alert setAlertStyle:NSWarningAlertStyle];
@@ -175,10 +175,7 @@ NSFont *smallFont;
   
   // Set up library browser
   [browser reloadColumn:BROWSER_ARTIST];
-  while ([browser lastColumn] < BROWSER_TRACK)
-  {
-    [browser addColumn];
-  }
+  [self browser:nil];
   // Set timer to update status regularly
   updateTimer = [NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL target:self selector:@selector(updateStatus:) userInfo:nil repeats:YES];
 }
@@ -484,6 +481,7 @@ NSFont *smallFont;
   {
     [browser reloadColumn:column];
   }
+  [self browser:nil];
 }
 
 -(NSArray *)selectedLibraryTracks
